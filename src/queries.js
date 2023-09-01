@@ -1,6 +1,14 @@
 import { Op } from 'sequelize';
 import { Animal, Human } from './model.js';
 
+//Example problem
+//I have a model Dealership which has many Cars
+//Get all cars belonging to Dealership with primary key 1
+// export const query0 = await Dealership.findByPk(1).getCars()
+// ^^This won't work. You can't string it this way because it makes it a promise.
+export const query0 = await (await Dealership.findByPk(1)).getCars()
+// ^^ This will now work
+
 // Get the human with the primary key 2
 export const query1 = null;
 
