@@ -41,8 +41,33 @@ export const query8 = await Human.findAll({ where: { [Op.not]: { email: { [Op.su
 // Print a directory of humans and their animals
 
 export async function printHumansAndAnimals() {
-    const table = await Human.findAll({include: Animal})
-    return table
+
+    //? Problem solved during class
+    let directory = ''
+
+    let humans = await Human.findAll()
+
+    for ( let i = 0; i < humans.length; i++) {
+        let human = humans[i]
+
+        directory += human.getFullName() + '\n'
+        // directory += 'Bob' + '\n'
+
+        let animals = await human.getAnimals()
+
+        for (let k = 0; k < animals.length; k++) {
+            let animal = animals[k]
+
+            directory += '- ' + animal.name + ', ' + animal.species + '\n'
+        }
+    }
+    directory = directory.slice(0, -1)
+    
+    return directory
+
+    //? Incorrect code
+    // const table = await Human.findAll({include: Animal})
+    // return table
     // for (const human of table) {
     //         console.log(`${human.fname} ${human.lname}`)
     //         for (const animal of table.Animal) {
@@ -50,8 +75,20 @@ export async function printHumansAndAnimals() {
     //             }
     //         }
 }
-console.log(1000,printHumansAndAnimals())
+console.log(1000,await printHumansAndAnimals())
+
 // Return a Set containing the full names of all humans
 // with animals of the given species.
+//? Problem solved during class
+export async function getHumansByAnimalSpecies(species) {
+    const humansSet = new Set()
 
-export async function getHumansByAnimalSpecies(species) {}
+    const animals = await Animal.findAll({where:{species}})
+
+    for(let i = 0; i < animals.length; i++) {
+        let animal = animals[i]
+
+        humansSet.add(await animal.getHuman()).getFullName()
+    }
+    return humansSet
+}

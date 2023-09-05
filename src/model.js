@@ -17,8 +17,9 @@ export class Human extends Model {
   //   }
   // }
   getFullName() {
-    const fullName = this.getDataValue('fname' + ' ' + 'lname')
-    return fullName
+    // const fullName = this.getDataValue('fname' + ' ' + 'lname')
+    // return fullName
+    return `${this.fname} ${this.lname}`
   }
 }
 
